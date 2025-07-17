@@ -5,8 +5,8 @@ import { authentication } from '../middlewares/auth.middleware.js';
 
 const router = Router();
 
-router.get('/:id', guitarController.getGuitarById);
-router.get('/', guitarController.getGuitars);
+router.get('/:id',authentication,  guitarController.getGuitarById);
+router.get('/', authentication, guitarController.getGuitars);
 router.post('/', authentication, guitarController.createGuitar);
 router.put('/:id', authentication, guitarController.updateGuitar);
 router.delete('/:id', authentication, guitarController.deleteGuitar);
