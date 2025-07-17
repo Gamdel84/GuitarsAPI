@@ -1,24 +1,26 @@
-# Guitars API 🎸
+# Stock Guitars API 🎸
 
-API REST creada con Node.js, Express y Firebase Firestore.
+Una API REST desarrollada con **Node.js**, **Express** y **Firebase Firestore** para gestionar un catálogo de guitarras.
+
+## Características
+
+- CRUD de guitarras (`GET`, `POST`, `PUT`, `DELETE`)
+- Rutas protegidas con **JWT**
+- Autenticación básica (`/auth/login`)
+- Deploy en **Vercel**
 
 ## Rutas principales
 
-- `POST /auth/login` → Obtener token JWT
-- `GET /api/guitars` → Obtener todas las guitarras (protegido)
-- `GET /api/guitars/:id` → Obtener guitarra por ID (protegido)
-- `POST /api/guitars` → Crear guitarra (protegido)
-- `PUT /api/guitars/:id` → Actualizar guitarra (protegido)
-- `DELETE /api/guitars/:id` → Eliminar guitarra (protegido)
+- `POST /auth/login`: Devuelve un token JWT con usuario predefinido.
+- `GET /api/guitars`: Lista todas las guitarras (**requiere token**).
+- `GET /api/guitars/:id`: Guitarra por ID (**requiere token**).
+- `POST /api/guitars`: Crea guitarra (**requiere token**).
+- `PUT /api/guitars/:id`: Actualiza guitarra (**requiere token**).
+- `DELETE /api/guitars/:id`: Elimina guitarra (**requiere token**).
 
-## Autenticación
+## Usuario de prueba
 
-Para acceder a las rutas protegidas es necesario obtener un token JWT mediante:
-
-```bash
-POST /auth/login
-Content-Type: application/json
-
+```json
 {
   "email": "gam@guitars.com",
   "password": "TocaLaViolaEnLaMayor"
