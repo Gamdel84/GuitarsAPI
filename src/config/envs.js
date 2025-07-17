@@ -13,7 +13,6 @@ export const envs = {
   },
   port: process.env.PORT || 3005,
   secrets: {
-  JWT_SECRET_KEY: process.env.JWT_SECRET_KEY,
-  session: process.env.SESSION_KEY,
+  JWT_SECRET_KEY: process.env.JWT_SECRET_KEY
   }
 };
