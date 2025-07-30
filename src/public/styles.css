@@ -1,0 +1,199 @@
+/* -------------------------------- */
+/* 🔷 BASE Y ESTRUCTURA GENERAL     */
+/* -------------------------------- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+  font-family: sans-serif;
+  padding: 20px;
+  background: #f4e1f1;
+}
+
+#logout-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: #333;
+  color: rgb(255, 0, 0);
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+#guitar-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+  text-align: center;
+}
+
+/* -------------------------------- */
+/* 🎴 ESTILOS DE LAS TARJETAS (CARDS) */
+/* -------------------------------- */
+
+.card {
+  color: rgb(8, 95, 189);
+  width: 250px;
+  min-height: 200px;
+  display: inline-block;
+  vertical-align: top;
+  margin: 10px;
+  padding: 15px;
+  border-radius: 10px;
+  border: 2px solid #ccc;
+  box-shadow: 5px 5px 10px #aaa;
+  background-color: #f5e4b1;
+        strong{
+            color: rgb(70, 58, 58);
+            font-size: 1em;
+        }
+        h3 {
+            color: rgb(183, 21, 224);
+            font-size: 1.2em;
+        }
+}
+
+/* Colores de borde según stock */
+.low-stock {
+  border: 3px solid rgb(250, 34, 34);
+}
+
+.high-stock {
+  border: 3px solid rgb(6, 221, 6);
+}
+
+/* Advertencia de bajo stock */
+.stock-warning {
+  color: red;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+/* -------------------------------- */
+/* 🧾 FORMULARIO DE GUITARRAS       */
+/* -------------------------------- */
+
+.form-section {
+  margin: 20px auto;
+  padding: 15px;
+  background: #fff;
+  border: 4px solid #044ad6;
+  border-radius: 10px;
+  max-width: 500px;
+  box-shadow: 5px 5px 10px #036788;
+}
+
+form input[type="text"],
+form input[type="number"],
+form input[type="password"] {
+  width: 100%;
+  margin: 5px auto;
+  padding: 3px;
+  font-size: 1em;
+  border: 1px solid rgb(255, 171, 93);
+}
+
+.login {
+    /*centrar button*/
+    display: block;
+    width: 100%;
+    background-color: #c008d4;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+
+}
+
+form button {
+  margin-right: 10px;
+  padding: 6px 12px;
+  font-size: 1em;
+}
+
+/* -------------------------------- */
+/* 🔘 BOTONES                       */
+/* -------------------------------- */
+
+button {
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: crimson;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.card button.edit {
+  background-color: #007bff;
+}
+
+/* -------------------------------- */
+/* 📱 RESPONSIVE                   */
+/* -------------------------------- */
+
+@media (max-width: 400px) {
+  .card {
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  .form-section {
+    width: 90%;
+  }
+}
+
+@media (min-width: 401px) and (max-width: 600px) {
+  .card {
+    width: 45%;
+  }
+
+  .form-section {
+    width: 80%;
+  }
+}
+
+@media (min-width: 601px) {
+  .card {
+    width: 30%;
+  }
+
+  .form-section {
+    width: 60%;
+  }
+}
+
+@media (min-width: 901px) {
+  .card {
+    width: 20%;
+  }
+
+  .form-section {
+    width: 50%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .card {
+    width: 15%;
+  }
+
+  .form-section {
+    width: 40%;
+  }
+}
+
+
