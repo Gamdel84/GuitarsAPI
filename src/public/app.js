@@ -1,12 +1,10 @@
-// app.js
-
 window.addEventListener("DOMContentLoaded", () => {
   const token = localStorage.getItem("token");
 
   if (token) {
     document.getElementById("login-section").classList.add("d-none");
     document.getElementById("main-section").classList.remove("d-none");
-    getGuitars();
+    getGuitars?.();
   }
 
   document.getElementById("logout-btn")?.addEventListener("click", () => {

@@ -1,8 +1,6 @@
-// scripts.js
+const API_URL = "https://guitars-api.vercel.app/api";
 
-const API_URL = "https://tudominio.vercel.app"; // Ajustá según tu deploy
-
-async function getGuitars() {
+const getGuitars = async () => {
   const token = localStorage.getItem("token");
 
   try {
@@ -30,16 +28,16 @@ async function getGuitars() {
   } catch (error) {
     console.error("Error al obtener guitarras:", error);
   }
-}
+};
 
 document.getElementById("submit-btn")?.addEventListener("click", async () => {
   const token = localStorage.getItem("token");
   const name = document.getElementById("name").value.trim();
   const brand = document.getElementById("brand").value.trim();
-  const price = document.getElementById("price").value.trim();
+  const price = parseFloat(document.getElementById("price").value.trim());
 
-  if (!name || !brand || !price) {
-    alert("Completa todos los campos");
+  if (!name || !brand || isNaN(price)) {
+    alert("Completa todos los campos correctamente");
     return;
   }
 
@@ -67,7 +65,7 @@ document.getElementById("submit-btn")?.addEventListener("click", async () => {
   }
 });
 
-async function deleteGuitar(id) {
+const deleteGuitar = async (id) => {
   const token = localStorage.getItem("token");
 
   try {
@@ -78,16 +76,19 @@ async function deleteGuitar(id) {
 
     if (res.ok) {
       getGuitars();
+    } else {
+      const err = await res.json();
+      alert(err.message || "Error al eliminar guitarra");
     }
   } catch (error) {
     console.error("Error al eliminar guitarra:", error);
   }
-}
+};
 
-async function editGuitar(id) {
-  // Implementación pendiente (abrir modal o rellenar el form con los datos)
-  alert("Función de editar aún no implementada.");
-}
+const editGuitar = (id) => {
+  // Implementación futura
+  alert(`Función para editar guitarra ${id} aún no implementada.`);
+};
 
 
 
