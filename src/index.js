@@ -6,24 +6,24 @@ import { envs } from './config/envs.js';
 
 const app = express();
 
-// settings
-const PORT = envs.port;
-
 // middlewares
 app.use(express.json());
-app.use(express.static(join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 
-// routes
-app.get("/", (req, res) => {
-  res.json({ title: "Stock Guitars" });
-});
+// servir archivos estáticos
+app.use(express.static(join(__dirname, "public")));
+
+// rutas
 app.use("/api/guitars", guitarRoutes);
 app.use("/auth", authRouter);
 
-// listeners
-app.listen(PORT, () => {
-  console.log(`Server on port http://localhost:${PORT}`);
+// ruta raíz que devuelve el frontend
+app.get("/", (req, res) => {
+  res.sendFile(join(__dirname, "public", "index.html"));
 });
+
+// ⚠️ No usar app.listen() en Vercel
+export default app;
+
 
 
