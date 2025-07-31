@@ -1,114 +1,93 @@
-const API_URL = "https://guitars-api.vercel.app/api/guitars";
-const AUTH_URL = "https://guitars-api.vercel.app/auth/login";
-const container = document.getElementById("guitarsContainer");
+// scripts.js
 
-const logoutBtn = document.getElementById("logoutBtn");
-const addBtn = document.getElementById("addBtn");
+const API_URL = "https://tudominio.vercel.app"; // Ajustá según tu deploy
 
-// Mostrar tarjetas
 async function getGuitars() {
   const token = localStorage.getItem("token");
-  try {
-    const res = await fetch(API_URL, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const data = await res.json();
 
+  try {
+    const res = await fetch(`${API_URL}/guitars`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+
+    const guitars = await res.json();
+    const container = document.getElementById("guitars-container");
     container.innerHTML = "";
-    data.forEach((guitar) => {
+
+    guitars.forEach(guitar => {
       const card = document.createElement("div");
-      card.className = "col";
+      card.className = "col-md-4 mb-3";
       card.innerHTML = `
-        <div class="card h-100 shadow-sm">
-          <div class="card-body">
-            <h5 class="card-title">${guitar.name}</h5>
-            <p class="card-text">${guitar.description || "Sin descripción"}</p>
-            <p class="text-muted">Stock: ${guitar.stock}</p>
-          </div>
+        <div class="card p-3">
+          <h5>${guitar.name}</h5>
+          <p>Marca: ${guitar.brand}</p>
+          <p>Precio: $${guitar.price}</p>
+          <button onclick="editGuitar('${guitar.id}')" class="btn btn-warning btn-sm me-2">Editar</button>
+          <button onclick="deleteGuitar('${guitar.id}')" class="btn btn-danger btn-sm">Eliminar</button>
         </div>`;
       container.appendChild(card);
     });
-
-    toggleUI(true);
-  } catch (err) {
-    container.innerHTML = `<p class="text-danger">Error al cargar guitarras.</p>`;
-    console.error(err);
-    toggleUI(false);
+  } catch (error) {
+    console.error("Error al obtener guitarras:", error);
   }
 }
 
-// Login
-document.getElementById("loginForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const email = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
-
-  try {
-    const res = await fetch(AUTH_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
-
-    const data = await res.json();
-    if (res.ok) {
-      localStorage.setItem("token", data.token);
-      bootstrap.Modal.getInstance(document.getElementById("loginModal")).hide();
-      getGuitars();
-    } else {
-      alert(data.message || "Error al iniciar sesión");
-    }
-  } catch (err) {
-    alert("Error de conexión");
-    console.error(err);
-  }
-});
-
-// Agregar guitarra
-document.getElementById("addForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const name = document.getElementById("guitarName").value;
-  const description = document.getElementById("guitarDesc").value;
-  const stock = parseInt(document.getElementById("guitarStock").value);
-
+document.getElementById("submit-btn")?.addEventListener("click", async () => {
   const token = localStorage.getItem("token");
+  const name = document.getElementById("name").value.trim();
+  const brand = document.getElementById("brand").value.trim();
+  const price = document.getElementById("price").value.trim();
+
+  if (!name || !brand || !price) {
+    alert("Completa todos los campos");
+    return;
+  }
+
   try {
-    const res = await fetch(API_URL, {
+    const res = await fetch(`${API_URL}/guitars`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`
       },
-      body: JSON.stringify({ name, description, stock }),
+      body: JSON.stringify({ name, brand, price })
     });
 
     if (res.ok) {
-      bootstrap.Modal.getInstance(document.getElementById("addModal")).hide();
+      document.getElementById("name").value = "";
+      document.getElementById("brand").value = "";
+      document.getElementById("price").value = "";
       getGuitars();
     } else {
-      const data = await res.json();
-      alert(data.message || "Error al guardar guitarra");
+      const err = await res.json();
+      alert(err.message || "Error al guardar");
     }
-  } catch (err) {
-    alert("Error de red");
-    console.error(err);
+  } catch (error) {
+    console.error("Error al crear guitarra:", error);
   }
 });
 
-// Logout
-logoutBtn.addEventListener("click", () => {
-  localStorage.removeItem("token");
-  location.reload();
-});
+async function deleteGuitar(id) {
+  const token = localStorage.getItem("token");
 
-// Mostrar u ocultar UI según login
-function toggleUI(loggedIn) {
-  logoutBtn.style.display = loggedIn ? "inline-block" : "none";
-  addBtn.style.display = loggedIn ? "inline-block" : "none";
+  try {
+    const res = await fetch(`${API_URL}/guitars/${id}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${token}` }
+    });
+
+    if (res.ok) {
+      getGuitars();
+    }
+  } catch (error) {
+    console.error("Error al eliminar guitarra:", error);
+  }
 }
 
-// Al cargar
-getGuitars();
+async function editGuitar(id) {
+  // Implementación pendiente (abrir modal o rellenar el form con los datos)
+  alert("Función de editar aún no implementada.");
+}
+
+
 

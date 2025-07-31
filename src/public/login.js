@@ -1,37 +1,37 @@
-const form = document.getElementById('login-form');
-const errorMessage = document.getElementById('login-error');
+// login.js
 
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
+const API_URL = "https://tudominio.vercel.app"; // Cambiá esto si tu backend está en otro dominio
 
-  const username = document.getElementById('username').value.trim();
-  const password = document.getElementById('password').value;
+document.getElementById("login-btn")?.addEventListener("click", async () => {
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
 
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
-;
-
-  if (!passwordRegex.test(password)) {
-    errorMessage.textContent =
-      'La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial (*-_#$%&).';
+  if (!email || !password) {
+    alert("Completa todos los campos");
     return;
   }
 
   try {
-    const res = await fetch("/api/auth/login", {
+    const res = await fetch(`${API_URL}/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email: username, password })
+      body: JSON.stringify({ email, password })
     });
 
-    if (res.ok) {
-      const data = await res.json();
-      localStorage.setItem("token", data.token);
-      window.location.href = "index.html";
-    } else {
-      errorMessage.textContent = "Credenciales incorrectas";
-    }
+    const data = await res.json();
 
+    if (res.ok && data.token) {
+      localStorage.setItem("token", data.token);
+      document.getElementById("login-section").classList.add("d-none");
+      document.getElementById("main-section").classList.remove("d-none");
+      getGuitars(); // Llama a función del archivo scripts.js
+    } else {
+      alert(data.message || "Error al iniciar sesión");
+    }
   } catch (error) {
-    errorMessage.textContent = "Error en la petición";
+    console.error("Error:", error);
+    alert("Error de conexión");
   }
 });
+
+
