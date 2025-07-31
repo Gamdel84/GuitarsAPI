@@ -1,36 +1,45 @@
-// login.js
+const form = document.getElementById('login-form');
+const errorMessage = document.getElementById('login-error');
 
-const API_URL = "https://tudominio.vercel.app"; // Cambiá esto si tu backend está en otro dominio
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
 
-document.getElementById("login-btn")?.addEventListener("click", async () => {
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value.trim();
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value;
 
-  if (!email || !password) {
-    alert("Completa todos los campos");
+  // Validación: mínimo 8 caracteres, al menos una mayúscula, una minúscula, un número y un carácter especial (*-_#$%&)
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[*\-_$#%&]).{8,}$/;
+
+  if (!passwordRegex.test(password)) {
+    errorMessage.textContent =
+      'La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial (*-_#$%&).';
     return;
   }
 
   try {
-    const res = await fetch(`${API_URL}/auth/login`, {
+    const res = await fetch("https://guitars-api.vercel.app/api/auth/login", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password })
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email: username,
+        password: password
+      })
     });
 
     const data = await res.json();
 
     if (res.ok && data.token) {
       localStorage.setItem("token", data.token);
-      document.getElementById("login-section").classList.add("d-none");
-      document.getElementById("main-section").classList.remove("d-none");
-      getGuitars(); // Llama a función del archivo scripts.js
+      window.location.href = "index.html"; // redirige al home si login es exitoso
     } else {
-      alert(data.message || "Error al iniciar sesión");
+      errorMessage.textContent = data.message || "Credenciales incorrectas";
     }
+
   } catch (error) {
-    console.error("Error:", error);
-    alert("Error de conexión");
+    console.error("Error de conexión:", error);
+    errorMessage.textContent = "Error en la petición. Inténtalo más tarde.";
   }
 });
 

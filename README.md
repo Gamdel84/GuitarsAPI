@@ -23,5 +23,5 @@ Una API REST desarrollada con **Node.js**, **Express** y **Firebase Firestore** 
 ```json
 {
   "email": "gam@guitars.com",
-  "password": "TocaLaViolaEnLaMayor"
+  "password": "Guit@rrA2025#"
 }

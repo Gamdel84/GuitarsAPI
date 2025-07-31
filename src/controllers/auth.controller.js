@@ -3,7 +3,7 @@ import { generateToken } from '../utils/token-generator.js';
 const default_user = {
     id:1,
     email: 'gam@guitars.com',
-    password: 'TocaLaViolaEnLaMayor'
+    password: 'Guit@rrA2025#'
 };
 
 const login = async (req, res) => {
