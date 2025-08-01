@@ -1,24 +1,20 @@
-import { join, __dirname } from "./utils/index.js";
-import guitarRoutes from "./routes/guitar.route.js";
-import authRouter from "./routes/auth.routes.js";
-import express from "express";
-import path from "path";
+import express from 'express';
+import cors from 'cors';
+import guitarsRoutes from './routes/guitars.routes.js';
+import authRoutes from './routes/auth.routes.js';
 
 const app = express();
 
+app.use(cors({ origin: 'http://localhost:5173' }));
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(join(__dirname, "public")));
-app.use("/api/guitars", guitarRoutes);
-app.use("/auth", authRouter);
 
-app.get("/", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "public", "index.html"));
+app.use('/api/guitars', guitarsRoutes);
+app.use('/auth', authRoutes);
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
 });
-
-export default (req, res) => {
-  app(req, res);
-};
 
 
 
