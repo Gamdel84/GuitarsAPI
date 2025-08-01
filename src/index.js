@@ -16,9 +16,9 @@ app.get("/", (req, res) => {
   res.sendFile(path.resolve(__dirname, "public", "index.html"));
 });
 
-export default function handler(req, res) {
+export default (req, res) => {
   app(req, res);
-}
+};
 
 
 
